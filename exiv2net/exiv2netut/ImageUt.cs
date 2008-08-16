@@ -57,18 +57,15 @@ namespace exiv2netut
         [TearDown]
         public void TearDown()
         {
-            image.Free();
+            image.Dispose();
         }
 
         [Test]
         public void ImageEnumMeta()
         {
-            List<KeyValuePair<string, Value>> list = new List<KeyValuePair<string, Value>>(
-                image.EnumMeta());
-
             bool foundDateTimeOriginal = false;
             
-            foreach (KeyValuePair<String, Value> i in list)
+            foreach (KeyValuePair<String, Value> i in image)
             {
                 Console.WriteLine(i);
                 if (i.Key == DateTimeOriginal)
@@ -83,30 +80,30 @@ namespace exiv2netut
         [Test]
         public void Modify()
         {
-            string oldValue = (image.ReadMeta(DateTimeOriginal) as AsciiString).Value;
+            string oldValue = (image[DateTimeOriginal] as AsciiString).Value;
             string newValue = oldValue + " added something!";
-            image.ModifyMeta(DateTimeOriginal, new AsciiString(newValue));
+            image[DateTimeOriginal] = new AsciiString(newValue);
 
             image.Save();
             image.Dispose();
             Image imageRead = new Image(imageFileName);
 
-            Assert.AreEqual(newValue, ((AsciiString)imageRead.ReadMeta(DateTimeOriginal)).Value);
+            Assert.AreEqual(newValue, ((AsciiString)imageRead[DateTimeOriginal]).Value);
         }
 
         [Test]
         public void ReadWrite()
         {
-            string oldValue = (image.ReadMeta(DateTimeOriginal) as AsciiString).Value;
+            string oldValue = (image[DateTimeOriginal] as AsciiString).Value;
             string newValue = oldValue + " added something!";
-            image.ModifyMeta(DateTimeOriginal, new AsciiString(newValue));
+            image[DateTimeOriginal] = new AsciiString(newValue);
             Assert.AreEqual(true, image.IsModified);
 
             image.Save();
             image.Dispose();
             Image imageRead = new Image(imageFileName);
 
-            Assert.AreEqual(newValue, ((AsciiString)imageRead.ReadMeta(DateTimeOriginal)).Value);
+            Assert.AreEqual(newValue, ((AsciiString)imageRead[DateTimeOriginal]).Value);
         }
 
         [Test]
@@ -114,13 +111,13 @@ namespace exiv2netut
         {
             string key = "Exif.Canon.0x0018";
             byte[] data = { 0, 1, 2, 3, 4 };
-            image.ModifyMeta(key, new UnsignedByte(data));
+            image[key] = new UnsignedByte(data);
 
             image.Save();
             image.Dispose();
             Image imageRead = new Image(imageFileName);
 
-            byte[] readData = (imageRead.ReadMeta(key) as UnsignedByte).Value;
+            byte[] readData = (imageRead[key] as UnsignedByte).Value;
             Assert.AreEqual(data, readData);
         }
 
@@ -129,13 +126,13 @@ namespace exiv2netut
         {
             string key = "Exif.Canon.0x0018";
             UInt16[] data = { 0, 1, 2, 3, 4 };
-            image.ModifyMeta(key, new UnsignedShort(data));
+            image[key] = new UnsignedShort(data);
 
             image.Save();
             image.Dispose();
             Image imageRead = new Image(imageFileName);
             
-            ushort[] readData = (imageRead.ReadMeta(key) as UnsignedShort).Value;
+            ushort[] readData = (imageRead[key] as UnsignedShort).Value;
             Assert.AreEqual(data, readData);
         }
 
@@ -148,13 +145,13 @@ namespace exiv2netut
             data[0].Denominator = 2;
             data[1].Nominator = 3;
             data[1].Denominator = 4;
-            image.ModifyMeta(key, new UnsignedRational(data));
+            image[key] = new UnsignedRational(data);
 
             image.Save();
             image.Dispose();
             Image imageRead = new Image(imageFileName);
             
-            UnsignedRational.Element[] readData = (imageRead.ReadMeta(key) as UnsignedRational).Value;
+            UnsignedRational.Element[] readData = (imageRead[key] as UnsignedRational).Value;
             Assert.AreEqual(data, readData);
         }
 
@@ -189,5 +186,7 @@ namespace exiv2netut
             image.GPSDateTime = d;
             Assert.AreEqual(d, image.GPSDateTime);
         }
+
+        // IDictionary
     }
 }
