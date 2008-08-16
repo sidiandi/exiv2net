@@ -32,7 +32,7 @@ struct ImageWrapper;
 
 namespace Exiv2Net
 {
-	public ref class Image
+	public ref class Image : public System::Collections::Generic::IDictionary<System::String^, Value^>
 	{
 	public:
 		Image();
@@ -40,23 +40,9 @@ namespace Exiv2Net
 		~Image();
 		void OpenFile(String^ file);
 		void OpenMem(array<Byte>^ data);
-		void Free();
 		void Save();
 		int ImageSize();
 		array<Byte^>^ ImageData();
-		Value^ ReadMeta(String^ key);
-		typedef System::Collections::Generic::IEnumerable
-		<
-			System::Collections::Generic::KeyValuePair
-			<
-				String^, Value^
-			>
-		> MetaEnumerable;
-		MetaEnumerable^ EnumMeta();
-		void AddMeta(String^ key, Value^ value);
-		void ModifyMeta(String^ key, Value^ value);
-		void RemoveMeta(String^ key);
-		bool ContainsKey(String^ key);
 		property bool IsModified
 		{
 			bool get();
@@ -103,7 +89,161 @@ namespace Exiv2Net
 		}
 
 		HIMAGE hImage;
+
+		// IDictionary
+		typedef System::Collections::Generic::KeyValuePair<System::String ^,Exiv2Net::Value ^> T;
+
+		virtual System::Collections::IEnumerator^ GetEnumerator(void)
+			= System::Collections::IEnumerable::GetEnumerator
+		{
+			return EnumMeta()->GetEnumerator();
+		}
+
+		virtual System::Collections::Generic::IEnumerator<T>^ GetEnumeratorGeneric(void)
+			= System::Collections::Generic::IEnumerable<T>::GetEnumerator
+		{
+			return EnumMeta()->GetEnumerator();
+		}
+
+		virtual property int Count
+		{
+			virtual int get(void)
+			{
+				int count = 0;
+				System::Collections::Generic::IEnumerator<T>^ i = EnumMeta()->GetEnumerator();
+				while (i->MoveNext())
+				{
+					++count;
+				}
+				return count;
+			}
+		}
+        
+		virtual property bool IsReadOnly
+		{
+			virtual bool get(void)
+			{
+				return false;
+			}
+		}
+
+		virtual void Add(T t)
+		{
+			ModifyMeta(t.Key, t.Value);
+		}
+
+		virtual void Clear(void)
+		{
+			// todo
+		}
+
+		virtual bool Contains(T t)
+		{
+			return ContainsKey(t.Key);
+		}
+
+		virtual void CopyTo(cli::array<T, 1> ^,int)
+		{
+			// todo
+		}
+
+		virtual bool Remove(T t)
+		{
+			if (ContainsKey(t.Key))
+			{
+				RemoveMeta(t.Key);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		virtual property Exiv2Net::Value^ default[System::String ^]
+		{
+			Exiv2Net::Value^ get(System::String ^ key)
+			{
+				return ReadMeta(key);
+			}
+
+			void set(System::String ^ key,Exiv2Net::Value ^ value)
+			{
+				ModifyMeta(key, value);
+			}
+		}
+
+		virtual property System::Collections::Generic::ICollection<String^>^ Keys
+		{
+			virtual System::Collections::Generic::ICollection<String^>^ get(void)
+			{
+				System::Collections::Generic::IList<String^>^ keys = gcnew System::Collections::Generic::List<String^>();
+				// todo
+				return keys;
+			}
+		}
+
+		virtual property System::Collections::Generic::ICollection<Value^>^ Values
+		{
+			virtual System::Collections::Generic::ICollection<Value^>^ get(void)
+			{
+				System::Collections::Generic::IList<Value^>^ values = gcnew System::Collections::Generic::List<Value^>();
+				// todo
+				return values;
+			}
+
+		}
+
+		virtual bool ContainsKey(String^ key);
+		virtual void Add(System::String ^ key,Exiv2Net::Value ^ value)
+		{
+			ModifyMeta(key, value);
+		}
+
+		virtual bool Remove(System::String ^ key)
+		{
+			if (ContainsKey(key))
+			{
+				RemoveMeta(key);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		virtual bool TryGetValue(System::String ^ key,Exiv2Net::Value ^% value)
+		{
+			if (ContainsKey(key))
+			{
+				value = ReadMeta(key);
+				return true;
+			}
+			else
+			{
+				value = nullptr;
+				return false;
+			}
+		}
+
+		// IDictionary
+
+		typedef System::Collections::Generic::IEnumerable
+		<
+			System::Collections::Generic::KeyValuePair
+			<
+				String^, Value^
+			>
+		> MetaEnumerable;
 	private:
+		void Free();
+		Value^ ReadMeta(String^ key);
+		MetaEnumerable^ EnumMeta();
+		void AddMeta(String^ key, Value^ value);
+		void ModifyMeta(String^ key, Value^ value);
+		void RemoveMeta(String^ key);
+
 		void SetGPSVersion();
 		ImageWrapper* GetImageWrapper();
 		bool modified;

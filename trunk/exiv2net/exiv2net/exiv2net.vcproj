@@ -89,6 +89,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy /y /i  &quot;$(SolutionDir)..\Expat 2.0.1\Bin\libexpat.dll&quot; &quot;$(SolutionDir)build\$(ConfigurationName)\lib&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -163,6 +164,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy /y /i  &quot;$(SolutionDir)..\Expat 2.0.1\Bin\libexpat.dll&quot; &quot;$(SolutionDir)build\$(ConfigurationName)\lib&quot;"
 			/>
 		</Configuration>
 	</Configurations>
