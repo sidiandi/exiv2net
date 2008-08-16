@@ -12,6 +12,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "exiv2net", "exiv2net\exiv2n
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "exiv2netut", "exiv2netut\exiv2netut.csproj", "{6A42B695-803E-4F36-ABF7-8F9074849639}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07FAA89B-8B32-4D42-940D-778D5AC17E60}"
+	ProjectSection(SolutionItems) = preProject
+		README = README
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
