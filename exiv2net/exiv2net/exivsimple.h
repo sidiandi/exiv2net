@@ -34,7 +34,8 @@
 // *****************************************************************************
 
 
-// not used as dll
+// not used as dll 
+// andreas.grimme@gmx.net
 #define EXIVSIMPLE_API 
 
 DECLARE_HANDLE (HIMAGE);
