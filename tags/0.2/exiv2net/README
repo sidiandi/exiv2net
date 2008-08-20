@@ -1,0 +1,64 @@
+Exiv2Net
+********
+
+Welcome to Exiv2Net, a .NET wrapper for the Exiv2 C++ library. The 
+homepage of Exiv2 is:
+
+    http://www.exiv2.org/
+
+The homepage of Exiv2Net is:
+
+    http://code.google.com/p/exiv2net/
+
+Building and Installing
+=======================
+
+Use Microsoft Visual Studio 2008 to build Exiv2Net. Open
+
+    exiv2net/exiv2net.sln
+    
+and select "Build -> Build Solution" to build everything.
+ 
+Dependencies
+============
+
+All dependencies to build Exiv2Net are available in the SVN repository.
+The Exiv2 source code is added as an SVN external.
+
+The only dependency which is not included in the SVN repository is
+NUnit, which you need to run the unit tests in exiv2net/exiv2netut.
+NUnit is available at:
+
+    http://www.nunit.org/index.php
+
+Support
+=======
+
+Please send feedback or queries by email to the author:
+
+    http://andreas-grimme.gmxhome.de/
+
+Bug reports can be submitted directly to the bug tracking system at
+
+    http://code.google.com/p/exiv2net/issues/list
+
+
+License
+=======
+
+Copyright (C) 2008 Andreas Grimme <andreas.grimme@gmx.net>
+
+Exiv2Net is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2 of the License, or (at your
+option) any later version.
+
+Exiv2Net is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, 
+MA 02110-1301 USA.
