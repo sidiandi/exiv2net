@@ -37,7 +37,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyConfigurationAttribute("")];
 [assembly:AssemblyCompanyAttribute("")];
 [assembly:AssemblyProductAttribute("exiv2net")];
-[assembly:AssemblyCopyrightAttribute("Copyright (c)  2008")];
+[assembly:AssemblyCopyrightAttribute("Copyright (c) andreas.grimme@gmx.net 2008")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
 
@@ -52,7 +52,7 @@ using namespace System::Security::Permissions;
 // You can specify all the value or you can default the Revision and Build Numbers
 // by using the '*' as shown below:
 
-[assembly:AssemblyVersionAttribute("0.1.*")];
+[assembly:AssemblyVersionAttribute("0.2.*")];
 
 [assembly:ComVisible(false)];
 
