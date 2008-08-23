@@ -163,6 +163,10 @@ namespace exiv2netut
             image.DateTimeOriginal = d;
             Assert.AreEqual(d, image.DateTimeOriginal);
 
+            string artistName = "some artist";
+            image.Artist = artistName;
+            Assert.AreEqual(artistName, image.Artist);
+
             double delta = 0.0001;
             
             // GPS
