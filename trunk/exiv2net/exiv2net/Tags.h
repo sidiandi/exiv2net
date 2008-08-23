@@ -24,7 +24,7 @@
 public ref class Tags
 {
 public:
-	static String^ Artist = "Exif.Photo.Artist";
+	static String^ Artist = "Exif.Image.Artist";
 	static String^ DateTimeOriginal = "Exif.Photo.DateTimeOriginal";
 	static String^ SubSecTimeOriginal = "Exif.Photo.SubSecTimeOriginal";
 
