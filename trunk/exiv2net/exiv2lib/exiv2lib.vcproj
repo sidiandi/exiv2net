@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(SolutionDir)build\$(ConfigurationName)\include&#x0D;&#x0A;mkdir $(SolutionDir)build\$(ConfigurationName)\include\exiv2&#x0D;&#x0A;xcopy /y /i ..\..\exiv2\src\*.hpp $(SolutionDir)build\$(ConfigurationName)\include\exiv2&#x0D;&#x0A;xcopy /y /i ..\..\exiv2\src\*.h $(SolutionDir)build\$(ConfigurationName)\include\exiv2&#x0D;&#x0A;"
+				CommandLine="mkdir &quot;$(SolutionDir)build\$(ConfigurationName)\include&quot;&#x0D;&#x0A;mkdir &quot;$(SolutionDir)build\$(ConfigurationName)\include\exiv2&quot;&#x0D;&#x0A;xcopy /y /i ..\..\exiv2\src\*.hpp &quot;$(SolutionDir)build\$(ConfigurationName)\include\exiv2&quot;&#x0D;&#x0A;xcopy /y /i ..\..\exiv2\src\*.h &quot;$(SolutionDir)build\$(ConfigurationName)\include\exiv2&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -152,7 +152,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(SolutionDir)build\$(ConfigurationName)\include&#x0D;&#x0A;mkdir $(SolutionDir)build\$(ConfigurationName)\include\exiv2&#x0D;&#x0A;xcopy /y /i ..\..\exiv2\src\*.hpp $(SolutionDir)build\$(ConfigurationName)\include\exiv2&#x0D;&#x0A;xcopy /y /i ..\..\exiv2\src\*.h $(SolutionDir)build\$(ConfigurationName)\include\exiv2&#x0D;&#x0A;"
+				CommandLine="mkdir &quot;$(SolutionDir)build\$(ConfigurationName)\include&quot;&#x0D;&#x0A;mkdir &quot;$(SolutionDir)build\$(ConfigurationName)\include\exiv2&quot;&#x0D;&#x0A;xcopy /y /i ..\..\exiv2\src\*.hpp &quot;$(SolutionDir)build\$(ConfigurationName)\include\exiv2&quot;&#x0D;&#x0A;xcopy /y /i ..\..\exiv2\src\*.h &quot;$(SolutionDir)build\$(ConfigurationName)\include\exiv2&quot;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

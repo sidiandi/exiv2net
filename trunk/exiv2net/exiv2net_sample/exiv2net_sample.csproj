@@ -64,6 +64,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy /F /I /S /Y $(ProjectDir)..\exiv2netut\test-data $(TargetDir)\test-data</PostBuildEvent>
+    <PostBuildEvent>xcopy /F /I /S /Y "$(ProjectDir)..\exiv2netut\test-data" "$(TargetDir)\test-data"</PostBuildEvent>
   </PropertyGroup>
 </Project>
