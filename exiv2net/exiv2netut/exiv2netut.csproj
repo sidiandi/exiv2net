@@ -66,6 +66,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy /I /S /Y $(ProjectDir)test-data $(OutDir)test-data</PostBuildEvent>
+    <PostBuildEvent>xcopy /I /S /Y "$(ProjectDir)test-data" "$(OutDir)test-data"</PostBuildEvent>
   </PropertyGroup>
 </Project>
