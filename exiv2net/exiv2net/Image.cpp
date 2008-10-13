@@ -65,7 +65,8 @@ array<T>^ ToArray(const std::vector<T>& val)
 
 Exiv2Net::Value^ ToValue(const Exiv2::Value& val)
 {
-	switch (val.typeId())
+	Exiv2::TypeId t = val.typeId();
+	switch (t)
 	{
 	case Exiv2::unsignedByte:
 		{
@@ -140,7 +141,32 @@ Exiv2Net::Value^ ToValue(const Exiv2::Value& val)
 			return gcnew Exiv2Net::SignedRational(a);
 		}
 		break;
+	case Exiv2::string:
+		{
+			const Exiv2::StringValue& v = (const Exiv2::StringValue&) val;
+			return gcnew Exiv2Net::AsciiString(ToClrString(v.value_));
+		}
+		break;
+	case Exiv2::date:
+		break;
+	case Exiv2::time:
+		break;
+	case Exiv2::comment:
+		break;
+	case Exiv2::directory:
+		break;
+	case Exiv2::xmpText:
+		break;
+	case Exiv2::xmpAlt:
+		break;
+	case Exiv2::xmpBag:
+		break;
+	case Exiv2::xmpSeq:
+		break;
+	case Exiv2::langAlt:
+		break;
 	}
+
 	throw gcnew IndexOutOfRangeException((gcnew System::Int32(val.typeId()))->ToString());
 }
 
@@ -662,8 +688,6 @@ double Image::GPSLatitude::get()
 
 void Image::GPSLatitude::set(double x)
 {
-	SetGPSVersion();
-
 	String^ r = x >= 0 ? "N" : "S";
 	ModifyMeta(Tags::GPSLatitudeRef, gcnew AsciiString(r));
 	x = Math::Abs(x);
@@ -691,25 +715,20 @@ double Image::GPSLongitude::get()
 
 void Image::GPSLongitude::set(double x)
 {
-	SetGPSVersion();
-
 	String^ r = x >= 0 ? "E" : "W";
 	ModifyMeta(Tags::GPSLongitudeRef, gcnew AsciiString(r));
 	x = Math::Abs(x);
 	ModifyMeta(Tags::GPSLongitude, ExifUtil::GPSDegreesToExif(x));
 }
 
-void Image::SetGPSVersion()
+void Image::SetDefaultGPSVersion()
 {
-	if (!ContainsKey(Tags::GPSVersionID))
-	{
-		array<unsigned char>^ a = gcnew array<unsigned char>(4);
-		a[0] = 2;
-		a[1] = 2;
-		a[2] = 0;
-		a[3] = 0;
-		ModifyMeta(Tags::GPSVersionID, gcnew UnsignedByte(a));
-	}
+	array<unsigned char>^ a = gcnew array<unsigned char>(4);
+	a[0] = 0;
+	a[1] = 0;
+	a[2] = 2;
+	a[3] = 2;
+	GPSVersionID = a;
 }
 
 DateTime Image::GPSDateTime::get()
@@ -725,8 +744,6 @@ DateTime Image::GPSDateTime::get()
 
 void Image::GPSDateTime::set(DateTime dateTime)
 {
-	SetGPSVersion();
-
 	array<UnsignedRational::Element>^ d = gcnew array<UnsignedRational::Element>(3);
 	d[0].Nominator = dateTime.Hour;
 	d[0].Denominator = 1;
@@ -736,6 +753,16 @@ void Image::GPSDateTime::set(DateTime dateTime)
 	d[2].Denominator = 1;
 	ModifyMeta(Tags::GPSTimeStamp, gcnew UnsignedRational(d));
 	ModifyMeta(Tags::GPSDateStamp, gcnew AsciiString(ExifUtil::FormatDate(dateTime)));
+}
+
+array<unsigned char>^ Image::GPSVersionID::get()
+{
+	return ((UnsignedByte^)ReadMeta(Tags::GPSVersionID))->Value;
+}
+
+void Image::GPSVersionID::set(array<unsigned char>^ v)
+{
+	ModifyMeta(Tags::GPSVersionID, gcnew UnsignedByte(v));
 }
 
 bool Image::HasGPSInformation::get()
