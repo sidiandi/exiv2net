@@ -83,6 +83,14 @@ namespace Exiv2Net
 			void set(DateTime);
 		}
 
+		property array<unsigned char>^ GPSVersionID
+		{
+			array<unsigned char>^ get();
+			void set(array<unsigned char>^);
+		}
+
+		void SetDefaultGPSVersion();
+
 		property bool HasGPSInformation
 		{
 			bool get();
@@ -244,7 +252,6 @@ namespace Exiv2Net
 		void ModifyMeta(String^ key, Value^ value);
 		void RemoveMeta(String^ key);
 
-		void SetGPSVersion();
 		ImageWrapper* GetImageWrapper();
 		bool modified;
 		String^ m_fileName;

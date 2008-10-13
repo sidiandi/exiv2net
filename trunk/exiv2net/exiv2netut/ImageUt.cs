@@ -45,11 +45,15 @@ namespace exiv2netut
         string imageFileName;
         string DateTimeOriginal = "Exif.Photo.DateTimeOriginal";
 
+        string imageName = "issue1.jpg";
+
         [SetUp]
         public void Setup()
         {
-            imageFileName = TestDataFile("test1_copy.jpeg");
-            File.Copy(TestDataFile("test1.jpeg"), imageFileName, true);
+            imageFileName = TestDataFile("temp");
+            Directory.CreateDirectory(imageFileName);
+            imageFileName = Path.Combine(imageFileName, imageName);
+            File.Copy(TestDataFile(imageName), imageFileName, true);
             image = new Image();
             image.OpenFile(imageFileName);
         }
@@ -191,6 +195,33 @@ namespace exiv2netut
             Assert.AreEqual(d, image.GPSDateTime);
         }
 
-        // IDictionary
+        [Test]
+        public void ReadWriteGps()
+        {
+            double delta = 0.0001;
+
+            DateTime d = DateTime.Now;
+            d = new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second);
+
+            double lat = 44.23;
+            image.GPSLatitude = lat;
+            Assert.AreEqual(lat, image.GPSLatitude, delta);
+
+            double lon = 12.23;
+            image.GPSLongitude = lon;
+            Assert.AreEqual(lon, image.GPSLongitude, delta);
+
+            image.GPSDateTime = d;
+            Assert.AreEqual(image.GPSDateTime.Ticks, d.Ticks);
+
+            image.Save();
+
+            Image imageRead = new Image(imageFileName);
+            Assert.IsTrue(imageRead.HasGPSInformation);
+            Assert.AreEqual(imageRead.GPSDateTime, image.GPSDateTime);
+            Assert.AreEqual(imageRead.GPSLatitude, lat, delta);
+            Assert.AreEqual(imageRead.GPSLongitude, lon, delta);
+        }
+
     }
 }
